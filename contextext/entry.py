@@ -32,9 +32,9 @@ class ContextEntry(object):
         """
         Returns something like this:
         
-        [HKEY_CURRENT_USER\Software\Classes\.torrent\shell\TestContextItem\command]
+        [-HKEY_CURRENT_USER\Software\Classes\.torrent\shell\TestContextItem\command]
 
-        [HKEY_CURRENT_USER\Software\Classes\.torrent\shell\TestContextItem]
+        [-HKEY_CURRENT_USER\Software\Classes\.torrent\shell\TestContextItem]
         """
         return "".join(["[-", ext_root, "\\shell\\", self.name(), "]",
                        "\n\n[-", ext_root, "\\shell\\", self.name(), "\\command]"])
@@ -54,21 +54,25 @@ class ContextEntry(object):
     def name(self, new_name = None):
         if new_name is not None:
             self._name = str(new_name)
+            return self
         return self._name
     
     def text(self, new_text = None):
         if new_text is not None:
             self._text = str(new_text)
+            return self
         return self._text
 
     def command(self, new_cmd = None):
         if new_cmd is not None:
             self._cmd = str(new_cmd)
+            return self
         return self._cmd
 
     def extensions(self, new_exts = None):
         if type(new_exts) is set:
             self._extensions = new_exts
+            return self
         elif new_exts is not None:
             raise ArgumentException("extensions() method expected a set, got a "
                                     + type(new_exts) + ": " + str(new_exts))
