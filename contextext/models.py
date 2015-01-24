@@ -1,4 +1,4 @@
-import re
+from re import sub
 
 REG_ROOT_KEY = "HKEY_CURRENT_USER\\Software\\Classes\\"
 REG_VERSION = "Windows Registry Editor Version 5.00"
@@ -48,7 +48,7 @@ class ContextEntry(object):
 
     @staticmethod
     def _quote_cmd(cmd):
-        return re.sub('(?<!")%1(?!")', '"%1"', cmd)
+        return sub('(?<!")%1(?!")', '"%1"', cmd)
 
     @staticmethod
     def _install_diff_for_extension(ext, name, text, command):

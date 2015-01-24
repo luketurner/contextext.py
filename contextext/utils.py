@@ -1,3 +1,1 @@
-
-def escape(string):
-    return string.replace('"', '\\"')
+# Nothing here for now
