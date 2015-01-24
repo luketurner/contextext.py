@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 
 import contextext
 
-with open('README.rst', 'r', 'utf-8') as f:
+with open('README.rst', encoding='utf-8') as f:
     readme = f.read()
 
 setup(
-    name='contextest',
+    name='contextext',
     version=contextext.__version__,
     description='A minimal API for modifying Windows context menu entries',
     long_description=readme,
@@ -25,7 +25,6 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 3 :: Only',
         'Programming Language :: Python :: 3.4'
-
     )
 )
 
