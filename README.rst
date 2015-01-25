@@ -1,5 +1,5 @@
-contextext.py - an API for the Windows Explorer Context Menu
-============================================================
+contextext.py - tiny API for Windows context menu entries
+=========================================================
 
 Having new items in the Windows Explorer context menu can be nice. 
 But it's a pain to add them manually.
@@ -15,20 +15,13 @@ Todo list
 Examples
 --------
 
-Iterating over existing items:
-
-.. code-block:: python
-
-    for entry in c.ext(".txt").all():
-        print(entry.text(), entry.command())
-
 Creating new items:
 
 .. code-block:: python
 
-    entry = c.new("Launch dev server", "cmd /C node %1", ".js") # create a new context menu item
+    entry = ContextEntry("Launch dev server", "cmd /C node %1", ".js") # create a new context menu item
     print("Making these changes:")
-    print(entry.diff()) # print the corresponding registry keys
-    entry.save() # save the new entry to the registry
+    print(entry.partial_install_diff) # print the corresponding registry keys
+    entry.save() # save the new entry to the registry - Windows only - NOT IMPLEMENTED
     with f = open("uninstall.reg", "w"):
-        f.write(entry.removal_diff())
+        f.write(entry.removal_diff)

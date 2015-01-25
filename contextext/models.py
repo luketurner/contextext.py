@@ -1,4 +1,4 @@
-from re import sub
+from .utils import quote_cmd, escape_quotes, to_alphanumeric, valid_extensions
 
 REG_ROOT_KEY = "HKEY_CURRENT_USER\\Software\\Classes\\"
 REG_VERSION = "Windows Registry Editor Version 5.00"
@@ -31,27 +31,18 @@ class ContextEntry(object):
 
     @property
     def partial_removal_diff(self):
-        return "\n\n".join(self._removal_diff_for_extension(ext, self.name)
-                           for ext in self.extensions)
+        """
+        Returns something like this:
+
+        [-HKEY_CURRENT_USER\Software\Classes\.torrent\shell\TestContextItem\command]
+
+        [-HKEY_CURRENT_USER\Software\Classes\.torrent\shell\TestContextItem]
+        """
+        return "\n\n".join(self._removal_diff_for_extension(ext, to_alphanumeric(self.name))
+                           for ext in valid_extensions(self.extensions))
 
     @property
     def partial_install_diff(self):
-        return "\n\n".join(self._install_diff_for_extension(ext, self.name, self.text, self.command)
-                           for ext in self.extensions)
-
-    @property
-    def install_diff(self):
-        return REG_VERSION + "\n\n" + self.partial_install_diff
-
-    def __repr__(self):
-        return "<ContextEntry {0} {1}>".format(self.name, self.extensions)
-
-    @staticmethod
-    def _quote_cmd(cmd):
-        return sub('(?<!")%1(?!")', '"%1"', cmd)
-
-    @staticmethod
-    def _install_diff_for_extension(ext, name, text, command):
         """
         Returns something like this:
         [HKEY_CURRENT_USER\Software\Classes\.torrent]
@@ -63,8 +54,19 @@ class ContextEntry(object):
 
         [HKEY_CURRENT_USER\Software\Classes\.torrent\shell\TestContextItem\command]
         @="cmd.exe"
-
         """
+        return "\n\n".join(self._install_diff_for_extension(ext,
+                                                            to_alphanumeric(self.name),
+                                                            escape_quotes(self.text),
+                                                            escape_quotes(quote_cmd(self.command)))
+                           for ext in valid_extensions(self.extensions))
+
+    @property
+    def install_diff(self):
+        return REG_VERSION + "\n\n" + self.partial_install_diff
+
+    @staticmethod
+    def _install_diff_for_extension(ext, name, text, command):
         root = REG_ROOT_KEY + ext
         return "".join(["[", root, "]",
                         "\n\n[", root, "\\shell", "]",
@@ -75,13 +77,9 @@ class ContextEntry(object):
 
     @staticmethod
     def _removal_diff_for_extension(ext, name):
-        """
-        Returns something like this:
-
-        [-HKEY_CURRENT_USER\Software\Classes\.torrent\shell\TestContextItem\command]
-
-        [-HKEY_CURRENT_USER\Software\Classes\.torrent\shell\TestContextItem]
-        """
         root = REG_ROOT_KEY + ext
         return "".join(["[-", root, "\\shell\\", name, "]",
                        "\n\n[-", root, "\\shell\\", name, "\\command]"])
+
+    def __repr__(self):
+        return "<ContextEntry {0} {1}>".format(self.name, self.extensions)
