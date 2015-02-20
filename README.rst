@@ -5,6 +5,13 @@ Having new items in the Windows Explorer context menu can be nice.
 But it's a pain to add them manually.
 This is a simple Python library that makes it easier.
 
+Extensions
+----------
+
+You can have the menu entry appear on all file extensions using the wildcard "*".
+Use special string "Directory" to put menu entry on directories.
+Use special string "Background" to show menu entry when you right click in the window background.
+
 Todo list
 ---------
 
