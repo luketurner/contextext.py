@@ -68,7 +68,7 @@ class ContextEntry(object):
     @staticmethod
     def _install_diff_for_extension(ext, name, text, command):
         if ext is "Background":
-            root = REG_ROOT_KEY + "Directory/Background"
+            root = REG_ROOT_KEY + "Directory\\Background"
         else:
             root = REG_ROOT_KEY + ext
         return "".join(["[", root, "]",
@@ -81,7 +81,7 @@ class ContextEntry(object):
     @staticmethod
     def _removal_diff_for_extension(ext, name):
         if ext is "Background":
-            root = REG_ROOT_KEY + "Directory/Background"
+            root = REG_ROOT_KEY + "Directory\\Background"
         else:
             root = REG_ROOT_KEY + ext
         return "".join(["[-", root, "\\shell\\", name, "]",

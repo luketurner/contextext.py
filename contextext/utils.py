@@ -14,7 +14,7 @@ def to_alphanumeric(name):
 
 
 def escape_quotes(string):
-    return string.replcae('"', '\\"')
+    return string.replace('"', '\\"')
 
 
 def valid_extensions(exts):
