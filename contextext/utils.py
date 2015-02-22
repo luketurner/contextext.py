@@ -19,4 +19,4 @@ def escape_quotes(string):
 
 def valid_extensions(exts):
     return (ext if ext is "*" else sub('[^\\w.]', '_', ext)
-            for ext in exts if (ext is "*" or ext is "Directory" or ext is "Background" or ext[0] is "."))
+            for ext in exts if ext[0] == "." or ext == "*" or ext == "Directory" or ext == "Background")
