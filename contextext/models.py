@@ -20,10 +20,10 @@ class ContextEntry(object):
     """
 
     def __init__(self, name=None, text=None, command=None, extensions=None):
-        self.name = "" if name is None else name
-        self.text = "" if text is None else text
-        self.command = "" if command is None else command
-        self.extensions = set(() if extensions is None else extensions)
+        self.name = "" if name == None else name
+        self.text = "" if text == None else text
+        self.command = "" if command == None else command
+        self.extensions = set(() if extensions == None else extensions)
 
     @property
     def removal_diff(self):
@@ -67,7 +67,7 @@ class ContextEntry(object):
 
     @staticmethod
     def _install_diff_for_extension(ext, name, text, command):
-        if ext is "Background":
+        if ext == "Background":
             root = REG_ROOT_KEY + "Directory\\Background"
         else:
             root = REG_ROOT_KEY + ext
@@ -80,7 +80,7 @@ class ContextEntry(object):
 
     @staticmethod
     def _removal_diff_for_extension(ext, name):
-        if ext is "Background":
+        if ext == "Background":
             root = REG_ROOT_KEY + "Directory\\Background"
         else:
             root = REG_ROOT_KEY + ext
